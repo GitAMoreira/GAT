@@ -66,7 +66,7 @@ public class Menu {
 
         switch (option) {
             case 1:
-                basicOp.add(option, subMenu);
+                basicOp.add(subMenu);
                 break;
 
             case 2:

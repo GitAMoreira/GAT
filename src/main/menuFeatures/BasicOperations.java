@@ -3,6 +3,7 @@ package main.menuFeatures;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import game.Category;
 import game.Game;
 
 import java.io.File;
@@ -13,20 +14,31 @@ public class BasicOperations implements IBasicOperations{
     private String dataFilesPath = "Data/";
     private Scanner sc = new Scanner(System.in);
     
-    public void add(int option, String subMenu){
+    public void add(String subMenu){
         if(fileExists(subMenu)){
-            switch (option) {
-                case 1:
+            switch (subMenu) {
+                // GAMES
+                case "GAMES":
                     System.out.println("Name of the game?\n");
-                    String name = sc.nextLine();
+                    String gameName = sc.nextLine();
                     System.out.println("Pick the game category:\n");
-                    String category = sc.nextLine();
+                    String gameCategory = sc.nextLine();
 
-                    Game game = new Game(name, category);
+                    Game game = new Game(gameName, gameCategory);
                     game.saveInformation(game, dataFilesPath + subMenu + ".txt");
 
                     break;
-            
+
+                // CATEGORIES
+                case "CATEGORIES":
+                    System.out.println("Name of the category?\n");
+                    String categoryName = sc.nextLine();
+
+                    Category category = new Category(categoryName);
+                    category.saveInformation(category, dataFilesPath + subMenu + ".txt");
+
+                    break;
+
                 default:
                     break;
             }

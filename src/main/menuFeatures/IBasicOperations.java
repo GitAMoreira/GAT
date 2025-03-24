@@ -1,7 +1,7 @@
 package main.menuFeatures;
 
 public interface IBasicOperations {
-    void add(int option, String subMenu);
+    void add(String subMenu);
     
     void list(String subMenu);
     
