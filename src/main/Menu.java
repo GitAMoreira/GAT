@@ -70,7 +70,7 @@ public class Menu {
                 break;
 
             case 2:
-                System.out.println("CHECKLIST MISSING");
+                basicOp.list(subMenu);
                 break;
 
             case 3:

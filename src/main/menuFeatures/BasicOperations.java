@@ -1,15 +1,17 @@
 package main.menuFeatures;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
 
 import game.Achievement;
 import game.Category;
 import game.Game;
-
-import java.io.File;
 
 public class BasicOperations implements IBasicOperations{
 
@@ -18,6 +20,7 @@ public class BasicOperations implements IBasicOperations{
     private Scanner sc = new Scanner(System.in); // Not closed!
     
     public void add(String subMenu){
+        String filePath = dataFilesPath + subMenu + ".txt";
         if(fileExists(subMenu)){
             switch (subMenu) {
                 // GAMES
@@ -29,7 +32,7 @@ public class BasicOperations implements IBasicOperations{
                     String gameCategory = sc.nextLine();
 
                     Game game = new Game(gameName, gameCategory);
-                    game.saveInformation(game, dataFilesPath + subMenu + ".txt");
+                    game.saveInformation(game, filePath);
 
                     break;
 
@@ -39,7 +42,7 @@ public class BasicOperations implements IBasicOperations{
                     String categoryName = sc.nextLine();
 
                     Category category = new Category(categoryName);
-                    category.saveInformation(category, dataFilesPath + subMenu + ".txt");
+                    category.saveInformation(category, filePath);
 
                     break;
 
@@ -93,7 +96,7 @@ public class BasicOperations implements IBasicOperations{
                     }else{
                         achievement = new Achievement(achievementName, achievementDescription, isCompleted, date);
                     }
-                    achievement.saveInformation(achievement, dataFilesPath + subMenu + ".txt");
+                    achievement.saveInformation(achievement, filePath);
 
                     break;
 
@@ -104,7 +107,23 @@ public class BasicOperations implements IBasicOperations{
     }
 
     public void list(String subMenu){
+        String filePath = dataFilesPath + subMenu + ".txt";
 
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;//, lineSplit[];
+            int count = 1;
+            
+            while((line = br.readLine()) != null){
+                //lineSplit = line.split(";");
+                System.out.println(count + ": " + line);
+                count++;
+            }
+            
+        } catch(FileNotFoundException e) {
+            System.out.println("File not found! Consider adding new entries to create a new file.");
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void modify(String subMenu){
@@ -115,6 +134,9 @@ public class BasicOperations implements IBasicOperations{
 
     }
 
+    /*
+     * This method checks if the file exists in order to either open it or create it straight away
+     */
     public boolean fileExists(String subMenu){
         String filePathString = dataFilesPath + subMenu + ".txt";
         File file = new File(filePathString);
@@ -133,6 +155,9 @@ public class BasicOperations implements IBasicOperations{
         }
     }
 
+    /*
+     * Checks the user input when it comes to y/n questions
+     */
     private String checkYNInput(String input){
         while(true){
             if(input.trim().toLowerCase().equals("y")){
