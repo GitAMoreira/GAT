@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
@@ -107,31 +109,19 @@ public class BasicOperations implements IBasicOperations{
     }
 
     public void list(String subMenu){
-        String filePath = dataFilesPath + subMenu + ".txt";
+        List<String> lines = linesList(subMenu);
 
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;//, lineSplit[];
-            int count = 1;
-            
-            while((line = br.readLine()) != null){
-                //lineSplit = line.split(";");
-                System.out.println(count + ": " + line);
-                count++;
-            }
-            
-        } catch(FileNotFoundException e) {
-            System.out.println("File not found! Consider adding new entries to create a new file.");
-        } catch(IOException e){
-            e.printStackTrace();
+        System.out.println();
+        for (String line : lines) {
+            System.out.println(line);
         }
+        System.out.println();
     }
 
-    public void modify(String subMenu){
-        
-    }
+    //public void modify(String subMenu)
 
     public void delete(String subMenu){
-
+        
     }
 
     /*
@@ -170,5 +160,28 @@ public class BasicOperations implements IBasicOperations{
             }
         }
         return input;
+    }
+
+    /*
+     * returns the list of lines in the file
+     */
+    private List<String> linesList(String subMenu){
+        String filePath = dataFilesPath + subMenu + ".txt";
+        List<String> lines = new ArrayList<>();
+
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            
+            while((line = br.readLine()) != null){
+                lines.add(line);
+            }
+            
+        } catch(FileNotFoundException e) {
+            System.out.println("File not found! Consider adding new entries to create a new file.");
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+        return lines;
     }
 }

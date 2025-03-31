@@ -5,7 +5,7 @@ public interface IBasicOperations {
     
     void list(String subMenu);
     
-    void modify(String subMenu);
+    //void modify(String subMenu);
     
     void delete(String subMenu);
 
