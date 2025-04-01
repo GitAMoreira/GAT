@@ -2,6 +2,7 @@ package main.menuFeatures;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -109,11 +110,13 @@ public class BasicOperations implements IBasicOperations{
     }
 
     public void list(String subMenu){
-        List<String> lines = linesList(subMenu);
+        List<String> lines = listLines(subMenu);
+        int count = 0;
 
         System.out.println();
         for (String line : lines) {
-            System.out.println(line);
+            System.out.println(count + " - " + line);
+            count++;
         }
         System.out.println();
     }
@@ -121,7 +124,21 @@ public class BasicOperations implements IBasicOperations{
     //public void modify(String subMenu)
 
     public void delete(String subMenu){
+        List<String> lines = listLines(subMenu);
+
+        System.out.println("Which entry would you like to delete?");
+        int entry = sc.nextInt();
+        List<String> list = new ArrayList<>();
+
+        for(int i = 0; i < lines.size(); i++){
+            if(i != entry){
+                list.add(lines.get(i));
+            }
+        }
         
+        overwriteFile(subMenu, list);
+
+        list(subMenu);
     }
 
     /*
@@ -165,7 +182,7 @@ public class BasicOperations implements IBasicOperations{
     /*
      * returns the list of lines in the file
      */
-    private List<String> linesList(String subMenu){
+    private List<String> listLines(String subMenu){
         String filePath = dataFilesPath + subMenu + ".txt";
         List<String> lines = new ArrayList<>();
 
@@ -183,5 +200,20 @@ public class BasicOperations implements IBasicOperations{
         }
 
         return lines;
+    }
+
+    /*
+     * Add lines to the given file, this method is used to copy information from the "delete" method
+     */
+    private void overwriteFile(String subMenu, List<String> lines){
+        String filePath = dataFilesPath + subMenu + ".txt";
+        try(FileWriter fw = new FileWriter(filePath, false)){
+            for (String line : lines) {
+                fw.write(line + "\n");
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+            System.out.println("Failed to copy information!");
+        }
     }
 }

@@ -59,7 +59,7 @@ public class Menu {
         System.out.println("*** " + subMenu + " ***\n" +
             "1 - Add new " + subMenu.toLowerCase() + "\n" + 
             "2 - Check list\n" + 
-            "3 - Change information\n" +
+            "3 - Delete entry\n" +
             "0 - Go back");
 
         int option = sc.nextInt();
@@ -74,7 +74,7 @@ public class Menu {
                 break;
 
             case 3:
-                System.out.println("MODIFY MISSING");
+                basicOp.delete(subMenu);
                 break;
 
             case 0:
