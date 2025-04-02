@@ -84,8 +84,10 @@ public class Menu {
             default:
                 System.out.println("Invalid option! Pick one from those available!");
                 SubMenu(prevOption, subMenu);
-                break;
-                
+                break;   
+        }
+        if(option != 0){
+            SubMenu(prevOption, subMenu);
         }
 
         // Prevent resource leaks
